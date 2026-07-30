@@ -125,7 +125,7 @@
 
                     <div class="header-row">
                         <div class="logo">
-                            <img src="{{ public_path('images/logo.png') }}" alt="Logo">
+                           <img src="{{ asset('images/logo.png') }}" alt="Logo">
                         </div>
                         <div class="no-row">
                             No. <span class="garis">{{ $k->nomor_kwitansi }}</span>
