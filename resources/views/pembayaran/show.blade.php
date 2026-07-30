@@ -58,7 +58,7 @@
 
         @if($pembayaran->kwitansi)
             <div class="mt-5 pt-5 border-t border-zinc-800">
-                <a href="{{ route('kwitansi.cetak', $pembayaran->kwitansi->id) }}"
+                <a href="{{ route('kwitansi.cetak', $pembayaran->kwitansi->id) }}" target="_blank"
                    class="inline-flex items-center px-4 py-2 rounded-lg bg-amber-500 text-zinc-950 text-sm font-semibold hover:bg-amber-400 transition">
                     Cetak Kwitansi
                 </a>
