@@ -139,7 +139,7 @@
                 <td class="label">Untuk pembayaran</td>
                 <td class="titik">:</td>
                 <td class="isian">
-                    Kost Bulan {{ $kwitansi->pembayaran->periode }}
+                    {{ $kwitansi->pembayaran->keterangan ?? 'Kost Bulan ' . $kwitansi->pembayaran->periode }}
                 </td>
             </tr>
         </table>

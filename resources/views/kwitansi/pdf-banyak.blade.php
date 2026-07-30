@@ -6,7 +6,7 @@
         @page { margin: 0; }
         body {
             font-family: 'Times New Roman', serif;
-            font-size: 11px;
+            font-size: 13px;
             color: #1a1a3a;
             margin: 0;
             padding: 20px;
@@ -22,44 +22,44 @@
             max-width: 680px;
             margin: 0 auto 18px;
             border: 2px solid #1a1a1a;
-            padding: 16px 22px;
+            padding: 22px 30px;
             background-color: #f0e6d2;
         }
         .header-row {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         .header-row .logo {
-            height: 42px;
+            height: 55px;
         }
         .header-row .logo img {
-            height: 42px;
+            height: 55px;
             width: auto;
             display: block;
         }
         .header-row .no-row {
-            font-size: 11px;
+            font-size: 13px;
             text-align: right;
-            padding-top: 6px;
+            padding-top: 8px;
         }
         .header-row .no-row .garis {
             border-bottom: 1px dotted #1a1a1a;
             display: inline-block;
-            min-width: 130px;
+            min-width: 140px;
             padding: 0 4px;
             font-weight: bold;
         }
         .info-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 4px;
+            margin-top: 5px;
         }
         .info-table td {
-            padding: 5px 0;
+            padding: 8px 0;
             vertical-align: bottom;
-            font-size: 11px;
+            font-size: 13px;
         }
         .info-table .label {
             width: 26%;
@@ -75,9 +75,9 @@
         .tanggal-row {
             text-align: right;
             font-weight: bold;
-            margin-top: 14px;
-            margin-bottom: 12px;
-            font-size: 11px;
+            margin-top: 22px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
         .bottom-section {
             width: 100%;
@@ -88,13 +88,14 @@
         }
         .bottom-section .kiri {
             width: 40%;
-            font-size: 12px;
+            font-size: 14px;
         }
         .bottom-section .kiri .rp-value {
             border-bottom: 1px solid #1a1a1a;
             display: inline-block;
-            min-width: 110px;
+            min-width: 130px;
             font-weight: bold;
+            font-style: normal;
             padding: 0 6px 2px;
         }
         .bottom-section .kanan {
@@ -102,14 +103,14 @@
             text-align: right;
         }
         .ttd-space {
-            height: 55px;
+            height: 70px;
         }
         .ttd-nama {
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
         }
         .ttd-kontak {
-            font-size: 10px;
+            font-size: 12px;
             font-weight: bold;
             margin-top: 3px;
         }
@@ -147,7 +148,7 @@
                             <td class="label">Untuk pembayaran</td>
                             <td class="titik">:</td>
                             <td class="isian">
-                                Kost Bulan {{ $k->pembayaran->periode }}
+                                {{ $k->pembayaran->keterangan ?? 'Kost Bulan ' . $k->pembayaran->periode }}
                             </td>
                         </tr>
                     </table>
