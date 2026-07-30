@@ -38,13 +38,14 @@
             text-align: right;
             padding-top: 8px;
         }
-        .header-row .no-row .garis {
-            border-bottom: 1px dotted #1a1a1a;
-            display: inline-block;
-            min-width: 140px;
-            padding: 0 4px;
-            font-weight: bold;
-        }
+       .header-row .no-row .garis {
+    border-bottom: 1px dotted #1a1a1a;
+    display: inline-block;
+    min-width: 140px;
+    padding: 0 4px;
+    font-weight: bold;
+    text-align: left;
+}
         .info-table {
             width: 100%;
             border-collapse: collapse;
@@ -80,18 +81,19 @@
         .bottom-section td {
             vertical-align: middle;
         }
-        .bottom-section .kiri {
-            width: 40%;
-            font-size: 14px;
-        }
-        .bottom-section .kiri .rp-value {
-            border-bottom: 1px solid #1a1a1a;
-            display: inline-block;
-            min-width: 130px;
-            font-weight: bold;
-            font-style: normal;
-            padding: 0 6px 2px;
-        }
+       .bottom-section .kiri {
+    width: 40%;
+    font-size: 17px;
+}
+.bottom-section .kiri .rp-value {
+    border-bottom: 1px solid #1a1a1a;
+    display: inline-block;
+    min-width: 130px;
+    font-weight: bold;
+    font-style: normal;
+    vertical-align: bottom;
+    padding: 0 6px 2px;
+}
         .bottom-section .kanan {
             width: 60%;
             text-align: right;
@@ -139,7 +141,7 @@
                 <td class="label">Untuk pembayaran</td>
                 <td class="titik">:</td>
                 <td class="isian">
-                    {{ $kwitansi->pembayaran->keterangan ?? 'Kost Bulan ' . $kwitansi->pembayaran->periode }}
+                    Kost Bulan {{ $kwitansi->pembayaran->periode }}
                 </td>
             </tr>
         </table>

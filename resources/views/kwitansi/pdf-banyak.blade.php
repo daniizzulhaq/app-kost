@@ -50,6 +50,7 @@
             min-width: 140px;
             padding: 0 4px;
             font-weight: bold;
+            text-align: left;
         }
         .info-table {
             width: 100%;
@@ -88,7 +89,7 @@
         }
         .bottom-section .kiri {
             width: 40%;
-            font-size: 14px;
+            font-size: 17px;
         }
         .bottom-section .kiri .rp-value {
             border-bottom: 1px solid #1a1a1a;
@@ -96,6 +97,7 @@
             min-width: 130px;
             font-weight: bold;
             font-style: normal;
+            vertical-align: bottom;
             padding: 0 6px 2px;
         }
         .bottom-section .kanan {
