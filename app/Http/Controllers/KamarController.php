@@ -16,10 +16,23 @@ class KamarController extends Controller
             $query->where('gedung_id', $request->gedung_id);
         }
 
-        $kamars = $query->latest()->paginate(15);
-        $gedungs = Gedung::where('status', 'aktif')->get();
+        if ($request->filled('nomor_kamar')) {
+            $query->where('nomor_kamar', 'like', '%' . $request->nomor_kamar . '%');
+        }
 
-        return view('kamar.index', compact('kamars', 'gedungs'));
+        if ($request->filled('tipe_kamar')) {
+            $query->where('tipe_kamar', $request->tipe_kamar);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $kamars = $query->orderByDesc('id')->paginate(20);
+        $gedungs = Gedung::all();
+        $tipeKamars = Kamar::select('tipe_kamar')->distinct()->pluck('tipe_kamar');
+
+        return view('kamar.index', compact('kamars', 'gedungs', 'tipeKamars'));
     }
 
     public function create()
