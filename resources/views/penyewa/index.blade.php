@@ -38,6 +38,7 @@
                 <thead>
                     <tr class="border-b border-zinc-800 text-left">
                         <th class="px-5 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Nama</th>
+                        <th class="px-5 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">No. HP</th>
                         <th class="px-5 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Kamar</th>
                         <th class="px-5 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Gedung</th>
                         <th class="px-5 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Jenis Sewa</th>
@@ -50,6 +51,7 @@
                     @forelse($penyewas as $penyewa)
                         <tr class="hover:bg-zinc-800/40 transition">
                             <td class="px-5 py-3 text-white font-medium">{{ $penyewa->nama }}</td>
+                            <td class="px-5 py-3 text-zinc-400">{{ $penyewa->no_telepon ?? '-' }}</td>
                             <td class="px-5 py-3 text-zinc-400">{{ $penyewa->kamar->nomor_kamar }}</td>
                             <td class="px-5 py-3 text-zinc-400">{{ $penyewa->kamar->gedung->nama_gedung }}</td>
                             <td class="px-5 py-3 text-zinc-400">{{ $penyewa->jenis_sewa }}</td>
@@ -72,7 +74,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-5 py-10 text-center text-zinc-500 text-sm">Belum ada data penyewa.</td>
+                            <td colspan="8" class="px-5 py-10 text-center text-zinc-500 text-sm">Belum ada data penyewa.</td>
                         </tr>
                     @endforelse
                 </tbody>
