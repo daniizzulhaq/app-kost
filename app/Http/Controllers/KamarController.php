@@ -8,33 +8,42 @@ use Illuminate\Http\Request;
 
 class KamarController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Kamar::with('gedung');
+   public function index(Request $request)
+{
+    $query = Kamar::with('gedung');
 
-        if ($request->filled('gedung_id')) {
-            $query->where('gedung_id', $request->gedung_id);
-        }
-
-        if ($request->filled('nomor_kamar')) {
-            $query->where('nomor_kamar', 'like', '%' . $request->nomor_kamar . '%');
-        }
-
-        if ($request->filled('tipe_kamar')) {
-            $query->where('tipe_kamar', $request->tipe_kamar);
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        $kamars = $query->orderByDesc('id')->paginate(20);
-        $gedungs = Gedung::all();
-        $tipeKamars = Kamar::select('tipe_kamar')->distinct()->pluck('tipe_kamar');
-
-        return view('kamar.index', compact('kamars', 'gedungs', 'tipeKamars'));
+    if ($request->filled('gedung_id')) {
+        $query->where('gedung_id', $request->gedung_id);
     }
 
+    if ($request->filled('nomor_kamar')) {
+        $query->where('nomor_kamar', 'like', '%' . $request->nomor_kamar . '%');
+    }
+
+    if ($request->filled('tipe_kamar')) {
+        $query->where('tipe_kamar', $request->tipe_kamar);
+    }
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $sortable = ['nomor_kamar', 'gedung_id', 'harga_harian', 'harga_bulanan', 'status'];
+    $sort = $request->get('sort');
+    $direction = $request->get('direction', 'asc') === 'desc' ? 'desc' : 'asc';
+
+    if ($sort && in_array($sort, $sortable)) {
+        $query->orderBy($sort, $direction);
+    } else {
+        $query->orderByDesc('id');
+    }
+
+    $kamars = $query->paginate(20);
+    $gedungs = Gedung::all();
+    $tipeKamars = Kamar::select('tipe_kamar')->distinct()->pluck('tipe_kamar');
+
+    return view('kamar.index', compact('kamars', 'gedungs', 'tipeKamars'));
+}
     public function create()
     {
         $gedungs = Gedung::where('status', 'aktif')->get();
