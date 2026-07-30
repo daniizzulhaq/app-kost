@@ -85,7 +85,7 @@ class KwitansiController extends Controller
      */
     private function getLogoBase64(): ?string
     {
-        $path = public_path('images/logo.png');
+        $path = public_path('images/logo.PNG');
 
         if (!file_exists($path)) {
             return null;
