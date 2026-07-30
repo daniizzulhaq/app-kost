@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page { margin: 0; }
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 11px;
+            color: #1a1a3a;
+            margin: 0;
+            padding: 20px;
+        }
+        .page {
+            page-break-after: always;
+        }
+        .page:last-child {
+            page-break-after: auto;
+        }
+        .kwitansi {
+            max-width: 680px;
+            margin: 0 auto 18px;
+            border: 2px solid #1a1a1a;
+            padding: 16px 22px;
+            background-color: #f0e6d2;
+        }
+        .header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .header-row .logo {
+            height: 42px;
+        }
+        .header-row .logo img {
+            height: 42px;
+            width: auto;
+            display: block;
+        }
+        .header-row .no-row {
+            font-size: 11px;
+            text-align: right;
+            padding-top: 6px;
+        }
+        .header-row .no-row .garis {
+            border-bottom: 1px dotted #1a1a1a;
+            display: inline-block;
+            min-width: 130px;
+            padding: 0 4px;
+            font-weight: bold;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+        .info-table td {
+            padding: 5px 0;
+            vertical-align: bottom;
+            font-size: 11px;
+        }
+        .info-table .label {
+            width: 26%;
+            white-space: nowrap;
+            font-style: italic;
+        }
+        .info-table .titik {
+            width: 3%;
+        }
+        .info-table .isian {
+            border-bottom: 1px dotted #1a1a1a;
+            font-weight: bold;
+        }
+        .tanggal-row {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 14px;
+            margin-bottom: 12px;
+            font-size: 11px;
+        }
+        .bottom-section {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .bottom-section td {
+            vertical-align: middle;
+        }
+        .bottom-section .kiri {
+            width: 40%;
+            font-style: italic;
+            font-size: 12px;
+        }
+        .bottom-section .kiri .rp-value {
+            border-bottom: 1px solid #1a1a1a;
+            display: inline-block;
+            min-width: 110px;
+            font-weight: bold;
+            font-style: normal;
+            padding: 0 6px 2px;
+        }
+        .bottom-section .kanan {
+            width: 60%;
+            text-align: right;
+        }
+        .ttd-space {
+            height: 55px;
+        }
+        .ttd-nama {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .ttd-kontak {
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    @foreach($groups as $group)
+        <div class="page">
+            @foreach($group as $k)
+                <div class="kwitansi">
+
+                    <div class="header-row">
+                        <div class="logo">
+                            <img src="{{ public_path('images/logo.png') }}" alt="Logo">
+                        </div>
+                        <div class="no-row">
+                            No. <span class="garis">{{ $k->nomor_kwitansi }}</span>
+                        </div>
+                    </div>
+
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Telah terima dari</td>
+                            <td class="titik">:</td>
+                            <td class="isian">{{ $k->pembayaran->penyewa->nama }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Uang sejumlah</td>
+                            <td class="titik">:</td>
+                            <td class="isian">{{ ucwords(\App\Helpers\Terbilang::make($k->pembayaran->jumlah_dibayar)) }} Rupiah</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Untuk pembayaran</td>
+                            <td class="titik">:</td>
+                            <td class="isian">
+                                Kost Bulan {{ $k->pembayaran->periode }}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="tanggal-row">
+                        {{ $k->lokasi ?? 'Sangatta' }}, {{ $k->pembayaran->tanggal_bayar->format('d F Y') }}
+                    </div>
+
+                    <table class="bottom-section">
+                        <tr>
+                            <td class="kiri">
+                                Rp. <span class="rp-value">{{ number_format($k->pembayaran->jumlah_dibayar, 0, ',', '.') }}</span>
+                            </td>
+                            <td class="kanan">
+                                <div class="ttd-space"></div>
+                                <div class="ttd-nama">{{ $k->diterima_oleh ?? 'Ibu Agus' }}</div>
+                                <div class="ttd-kontak">{{ $k->kontak_penerima ?? '0812-5481-2785' }}</div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            @endforeach
+        </div>
+    @endforeach
+</body>
+</html>
