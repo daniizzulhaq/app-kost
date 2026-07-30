@@ -53,7 +53,7 @@
                                 <div class="flex items-center justify-end gap-3">
                                     <a href="{{ route('pembayaran.show', $p->id) }}" class="text-zinc-400 hover:text-white transition text-xs font-medium">Detail</a>
                                     @if($p->kwitansi)
-                                        <a href="{{ route('kwitansi.cetak', $p->kwitansi->id) }}" class="text-zinc-400 hover:text-amber-400 transition text-xs font-medium">Cetak Kwitansi</a>
+                                       <a href="{{ route('kwitansi.cetak', $p->kwitansi->id) }}" target="_blank" class="text-zinc-400 hover:text-amber-400 transition text-xs font-medium">Cetak Kwitansi</a>
                                     @endif
                                 </div>
                             </td>

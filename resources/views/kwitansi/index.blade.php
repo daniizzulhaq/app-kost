@@ -52,7 +52,8 @@
                             </td>
                             <td class="px-5 py-3">
                                 <div class="flex items-center justify-end gap-3">
-                                    <a href="{{ route('kwitansi.cetak', $k->id) }}" class="text-zinc-400 hover:text-amber-400 transition text-xs font-medium">Cetak</a>
+                                   <a href="{{ route('kwitansi.cetak', $k->id) }}" target="_blank" 
+   class="text-zinc-400 hover:text-amber-400 transition text-xs font-medium">Cetak</a>
                                 </div>
                             </td>
                         </tr>
