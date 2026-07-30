@@ -26,7 +26,9 @@ class KwitansiController extends Controller
     {
         $kwitansi->load('pembayaran.penyewa', 'pembayaran.kamar.gedung');
 
-        $pdf = Pdf::loadView('kwitansi.pdf-single', compact('kwitansi'));
+        $logoData = $this->getLogoBase64();
+
+        $pdf = Pdf::loadView('kwitansi.pdf-single', compact('kwitansi', 'logoData'));
 
         $kwitansi->update([
             'sudah_dicetak' => true,
@@ -37,19 +39,19 @@ class KwitansiController extends Controller
     }
 
     public function formCetakBanyak(Request $request)
-{
-    $query = Kwitansi::with('pembayaran.penyewa', 'pembayaran.kamar.gedung');
+    {
+        $query = Kwitansi::with('pembayaran.penyewa', 'pembayaran.kamar.gedung');
 
-    if ($request->status_cetak === 'belum') {
-        $query->where('sudah_dicetak', false);
-    } elseif ($request->status_cetak === 'sudah') {
-        $query->where('sudah_dicetak', true);
+        if ($request->status_cetak === 'belum') {
+            $query->where('sudah_dicetak', false);
+        } elseif ($request->status_cetak === 'sudah') {
+            $query->where('sudah_dicetak', true);
+        }
+
+        $kwitansis = $query->latest()->get();
+
+        return view('kwitansi.cetak-banyak', compact('kwitansis'));
     }
-
-    $kwitansis = $query->latest()->get();
-
-    return view('kwitansi.cetak-banyak', compact('kwitansis'));
-}
 
     public function prosesCetakBanyak(Request $request)
     {
@@ -65,7 +67,9 @@ class KwitansiController extends Controller
         // Bagi 3 kwitansi per halaman A4, sesuai flow
         $groups = $kwitansis->chunk(3);
 
-        $pdf = Pdf::loadView('kwitansi.pdf-banyak', compact('groups'));
+        $logoData = $this->getLogoBase64();
+
+        $pdf = Pdf::loadView('kwitansi.pdf-banyak', compact('groups', 'logoData'));
 
         Kwitansi::whereIn('id', $validated['kwitansi_ids'])->update([
             'sudah_dicetak' => true,
@@ -73,5 +77,23 @@ class KwitansiController extends Controller
         ]);
 
         return $pdf->stream('kwitansi-gabungan.pdf');
+    }
+
+    /**
+     * Encode logo jadi base64 supaya pasti tampil di DomPDF,
+     * tidak bergantung pada asset()/public_path() URL fetching.
+     */
+    private function getLogoBase64(): ?string
+    {
+        $path = public_path('images/logo.png');
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 }

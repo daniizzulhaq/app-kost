@@ -116,7 +116,9 @@
 
         <div class="header-row">
             <div class="logo">
-                <img src="{{ asset('images/logo.PNG') }}" alt="Logo">
+                @if($logoData)
+                    <img src="{{ $logoData }}" alt="Logo">
+                @endif
             </div>
             <div class="no-row">
                 No. <span class="garis">{{ $kwitansi->nomor_kwitansi }}</span>
