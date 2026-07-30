@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gedung;
 use App\Models\Kamar;
 use App\Models\Penyewa;
 use Illuminate\Http\Request;
@@ -10,17 +11,25 @@ use Illuminate\Support\Facades\DB;
 class PenyewaController extends Controller
 {
     public function index(Request $request)
-{
-    $query = Penyewa::with('kamar.gedung');
+    {
+        $query = Penyewa::with('kamar.gedung');
 
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('gedung_id')) {
+            $query->whereHas('kamar', function ($q) use ($request) {
+                $q->where('gedung_id', $request->gedung_id);
+            });
+        }
+
+        $penyewas = $query->latest()->paginate(15);
+        $gedungs = Gedung::all();
+
+        return view('penyewa.index', compact('penyewas', 'gedungs'));
     }
 
-    $penyewas = $query->latest()->paginate(15);
-
-    return view('penyewa.index', compact('penyewas'));
-}
     public function create()
     {
         $kamars = Kamar::with('gedung')->where('status', 'KOSONG')->get();
@@ -63,43 +72,43 @@ class PenyewaController extends Controller
     }
 
     public function edit(Penyewa $penyewa)
-{
-    $kamars = Kamar::with('gedung')
-        ->where(function ($q) use ($penyewa) {
-            $q->where('status', 'KOSONG')->orWhere('id', $penyewa->kamar_id);
-        })
-        ->get();
+    {
+        $kamars = Kamar::with('gedung')
+            ->where(function ($q) use ($penyewa) {
+                $q->where('status', 'KOSONG')->orWhere('id', $penyewa->kamar_id);
+            })
+            ->get();
 
-    return view('penyewa.edit', compact('penyewa', 'kamars'));
-}
+        return view('penyewa.edit', compact('penyewa', 'kamars'));
+    }
 
-public function update(Request $request, Penyewa $penyewa)
-{
-    $validated = $request->validate([
-        'kamar_id' => 'required|exists:kamars,id',
-        'nama' => 'required|string|max:255',
-        'tempat_kerja' => 'nullable|string|max:255',
-        'no_telepon' => 'nullable|string|max:20',
-        'email' => 'nullable|email|max:255',
-        'alamat_asal' => 'nullable|string',
-        'jenis_sewa' => 'required|in:Harian,Bulanan',
-        'harga_sewa' => 'required|numeric|min:0',
-        'tanggal_masuk' => 'required|date',
-    ]);
+    public function update(Request $request, Penyewa $penyewa)
+    {
+        $validated = $request->validate([
+            'kamar_id' => 'required|exists:kamars,id',
+            'nama' => 'required|string|max:255',
+            'tempat_kerja' => 'nullable|string|max:255',
+            'no_telepon' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'alamat_asal' => 'nullable|string',
+            'jenis_sewa' => 'required|in:Harian,Bulanan',
+            'harga_sewa' => 'required|numeric|min:0',
+            'tanggal_masuk' => 'required|date',
+        ]);
 
-    DB::transaction(function () use ($validated, $penyewa) {
-        $kamarLama = $penyewa->kamar_id;
+        DB::transaction(function () use ($validated, $penyewa) {
+            $kamarLama = $penyewa->kamar_id;
 
-        $penyewa->update($validated);
+            $penyewa->update($validated);
 
-        if ($kamarLama != $validated['kamar_id']) {
-            Kamar::where('id', $kamarLama)->update(['status' => 'KOSONG']);
-            Kamar::where('id', $validated['kamar_id'])->update(['status' => 'TERISI']);
-        }
-    });
+            if ($kamarLama != $validated['kamar_id']) {
+                Kamar::where('id', $kamarLama)->update(['status' => 'KOSONG']);
+                Kamar::where('id', $validated['kamar_id'])->update(['status' => 'TERISI']);
+            }
+        });
 
-    return redirect()->route('penyewa.index')->with('success', 'Data penyewa berhasil diperbarui.');
-}
+        return redirect()->route('penyewa.index')->with('success', 'Data penyewa berhasil diperbarui.');
+    }
 
     public function prosesKeluar(Request $request, Penyewa $penyewa)
     {

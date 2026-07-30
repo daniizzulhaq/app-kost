@@ -6,7 +6,17 @@
 <div class="space-y-6">
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <form method="GET" action="{{ route('penyewa.index') }}" class="flex items-center gap-2">
+        <form method="GET" action="{{ route('penyewa.index') }}" class="flex flex-wrap items-center gap-2">
+            <select name="gedung_id" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500">
+                <option value="">Semua Gedung</option>
+                @foreach($gedungs as $gedung)
+                    <option value="{{ $gedung->id }}" {{ request('gedung_id') == $gedung->id ? 'selected' : '' }}>
+                        {{ $gedung->nama_gedung }}
+                    </option>
+                @endforeach
+            </select>
+
             <select name="status" onchange="this.form.submit()"
                     class="px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500">
                 <option value="">Semua Status</option>
