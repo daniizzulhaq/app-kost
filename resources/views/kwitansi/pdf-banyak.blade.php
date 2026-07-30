@@ -10,6 +10,7 @@
             color: #1a1a3a;
             margin: 0;
             padding: 20px;
+            text-transform: uppercase;
         }
         .page {
             page-break-after: always;
@@ -63,7 +64,6 @@
         .info-table .label {
             width: 26%;
             white-space: nowrap;
-            font-style: italic;
         }
         .info-table .titik {
             width: 3%;
@@ -88,7 +88,6 @@
         }
         .bottom-section .kiri {
             width: 40%;
-            font-style: italic;
             font-size: 12px;
         }
         .bottom-section .kiri .rp-value {
@@ -96,7 +95,6 @@
             display: inline-block;
             min-width: 110px;
             font-weight: bold;
-            font-style: normal;
             padding: 0 6px 2px;
         }
         .bottom-section .kanan {

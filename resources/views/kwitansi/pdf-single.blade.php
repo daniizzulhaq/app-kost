@@ -10,6 +10,7 @@
             color: #1a1a3a;
             margin: 0;
             padding: 30px;
+            text-transform: uppercase;
         }
         .kwitansi {
             max-width: 680px;
@@ -57,7 +58,6 @@
         .info-table .label {
             width: 26%;
             white-space: nowrap;
-            font-style: italic;
         }
         .info-table .titik {
             width: 3%;
@@ -82,7 +82,6 @@
         }
         .bottom-section .kiri {
             width: 40%;
-            font-style: italic;
             font-size: 14px;
         }
         .bottom-section .kiri .rp-value {
