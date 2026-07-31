@@ -24,6 +24,12 @@ class PenyewaController extends Controller
             });
         }
 
+        if ($request->filled('tipe_kamar')) {
+            $query->whereHas('kamar', function ($q) use ($request) {
+                $q->where('tipe_kamar', $request->tipe_kamar);
+            });
+        }
+
         $penyewas = $query->latest()->paginate(15);
         $gedungs = Gedung::all();
 

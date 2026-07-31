@@ -23,6 +23,13 @@
                 <option value="AKTIF" {{ request('status') === 'AKTIF' ? 'selected' : '' }}>Aktif</option>
                 <option value="TIDAK_AKTIF" {{ request('status') === 'TIDAK_AKTIF' ? 'selected' : '' }}>Tidak Aktif</option>
             </select>
+
+            <select name="tipe_kamar" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500">
+                <option value="">Semua Tipe</option>
+                <option value="VIP" {{ request('tipe_kamar') === 'VIP' ? 'selected' : '' }}>VIP</option>
+                <option value="Regular" {{ request('tipe_kamar') === 'Regular' ? 'selected' : '' }}>Regular</option>
+            </select>
         </form>
 
         <a href="{{ route('penyewa.create') }}"
